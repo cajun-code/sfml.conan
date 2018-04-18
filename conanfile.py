@@ -26,7 +26,8 @@ conan_basic_setup()''')
 
     def build(self):
         cmake = CMake(self)
-        cmake.configure(source_folder="SFML")
+        cmake.configure(source_folder="SFML", defs={"CMAKE_BUILD_TYPE":"Release","BUILD_SHARED_LIBS":True, "SFML_USE_STATIC_STD_LIBS": False,   })
+        
         cmake.build()
 
         # Explicit way:
@@ -35,7 +36,14 @@ conan_basic_setup()''')
         # self.run("cmake --build . %s" % cmake.build_config)
 
     def package(self):
-        self.copy("*.h", dst="include", src="include")
+        # self.copy("*.h", dst="include", src="include")
+        # self.copy("*.hpp", dst="include/SFML", src="include/SFML")
+        # self.copy("*.hpp", dst="include/SFML/Audio", src="include/SFML/Audio")
+        # self.copy("*.hpp", dst="include/SFML/Graphics", src="include/SFML/Graphics")
+        # self.copy("*.hpp", dst="include/SFML/Network", src="include/SFML/Network")
+        # self.copy("*.hpp", dst="include/SFML/System", src="include/SFML/System")
+        # self.copy("*.hpp", dst="include/SFML/Window", src="include/SFML/Window")
+        self.copy("*", src="SFML/include", dst="include")
         self.copy("*.lib", dst="lib", keep_path=False)
         self.copy("*.dll", dst="bin", keep_path=False)
         self.copy("*.so", dst="lib", keep_path=False)
@@ -43,5 +51,26 @@ conan_basic_setup()''')
         self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = ["sfml-graphics", "sfml-audio", "sfml-system", "sfml-network", "sfml-window"]
+        #self.cpp_info.includedirs = ['include']
+        self.cpp_info.libs = ["sfml-main", "sfml-system",
+                              "sfml-window","sfml-network",
+                              "sfml-graphics","sfml-audio",
+                              "flac", "freetype", "ogg", "openal32",
+                              "vorbis", "vorbisenc", "vorbisfile"  ]
+        '''
+flac.lib
+freetype.lib
+ogg.lib
+openal32.lib
+sfml-audio-s.lib
+sfml-graphics-s.lib
+sfml-main.lib
+sfml-network-s.lib
+sfml-system-s.lib
+sfml-window-s.lib
+vorbis.lib
+vorbisenc.lib
+vorbisfile.lib
+        '''
+        
 

@@ -35,6 +35,10 @@ conan_basic_setup()''')
         #          % (self.source_folder, cmake.command_line))
         # self.run("cmake --build . %s" % cmake.build_config)
 
+    def imports(self):
+        self.copy("*.dll", "", "bin")
+        self.copy("*.dylib", "", "lib")
+
     def package(self):
         # self.copy("*.h", dst="include", src="include")
         # self.copy("*.hpp", dst="include/SFML", src="include/SFML")

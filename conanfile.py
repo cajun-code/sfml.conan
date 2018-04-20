@@ -1,5 +1,5 @@
 from conans import ConanFile, CMake, tools
-
+import platform
 
 class SfmlConan(ConanFile):
     name = "SFML"
@@ -56,11 +56,16 @@ conan_basic_setup()''')
 
     def package_info(self):
         #self.cpp_info.includedirs = ['include']
-        self.cpp_info.libs = ["sfml-main", "sfml-system",
+        self.cpp_info.libs = ["sfml-system",
                               "sfml-window","sfml-network",
                               "sfml-graphics","sfml-audio",
                               "flac", "freetype", "ogg", "openal32",
                               "vorbis", "vorbisenc", "vorbisfile"  ]
+        
+        if platform.system() == "Windows":
+            self.cpp_info.libs.insert(0, "sfml-main") 
+        
+        
         '''
 flac.lib
 freetype.lib
